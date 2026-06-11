@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences App</title>
+
+<style>
+  body{
+    font-family: Arial;
+    width: 500px;
+    margin: 30px auto;
+  }
+  h2{
+    color: #333;
+  }
+          input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #message {
+            color: green;
+            margin-top: 10px;
+        }
+
+</style>
+</head>
+<body>
+   <!-- Local Storage Section -->
+     <h2>Local Storage Form</h2>
+
+    <label>Name:</label>
+    <input type="text" id="name">
+
+    <label>Email:</label>
+    <input type="email" id="email">
+
+    <label>Theme Preference:</label>
+    <select id="theme">
+        <option value="">Select Theme</option>
+        <option value="Light">Light</option>
+        <option value="Dark">Dark</option>
+    </select>
+
+    <button onclick="savePreferences()">
+        Save Preferences
+    </button>
+
+    <button onclick="clearPreferences()">
+        Clear Preferences
+    </button>
+
+    <p id="message"></p>
+
+
+  </div>
+
+  
+    <script>
+      window.onload = function(){
+        //Local Storage Data
+        let savedName = localStorage.getItem("name");
+        let savedEmail = localStorage.getItem("email")
+        let savedTheme = localStorage.getItem("theme");
+
+        if(savedName) {
+          document.getElementById("name").value = savedName;
+        }
+         if (savedEmail) {
+                document.getElementById("email").value = savedEmail;
+            }
+
+            if (savedTheme) {
+                document.getElementById("theme").value = savedTheme;
+            }
+
+      }
+
+      //Save data in local storage
+      function savePreferences(){
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let theme = document.getElementById("theme").value;
+
+        localStorage.setItem("name", name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("theme",theme);
+
+        document.getElementById("message").innerText= "Prefrences saved successfully";
+
+      }
+
+       // Clear local storage data
+        function clearPreferences() {
+
+            localStorage.removeItem("name");
+            localStorage.removeItem("email");
+            localStorage.removeItem("theme");
+
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("theme").value = "";
+
+            document.getElementById("message").innerText =
+                "Preferences cleared successfully!";
+        }
+    </script>
+
+</body>

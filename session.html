@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Storage Login</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    #loginMessage {
+        margin-top: 10px;
+        color: red;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Session Data Form</h2>
+
+    <div id="loginSection">
+
+        <label>Username</label>
+        <input type="text" id="name" placeholder="Enter username">
+
+        <label>Password</label>
+        <input type="password" id="pass" placeholder="Enter password">
+
+        <button id="loginBtn">Login</button>
+
+    </div>
+
+    <div id="welcomeSection" style="display:none;">
+        <h3 id="welcomeMessage"></h3>
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <p id="loginMessage"></p>
+
+</div>
+
+<script>
+
+let usernameInput = document.getElementById("name");
+let passwordInput = document.getElementById("pass");
+
+let loginBtn = document.getElementById("loginBtn");
+let logoutBtn = document.getElementById("logoutBtn");
+
+let loginSection = document.getElementById("loginSection");
+let welcomeSection = document.getElementById("welcomeSection");
+
+let welcomeMessage = document.getElementById("welcomeMessage");
+let loginMessage = document.getElementById("loginMessage");
+
+
+// Show welcome section
+function showWelcome(username) {
+    loginSection.style.display = "none";
+    welcomeSection.style.display = "block";
+    welcomeMessage.innerText = "Welcome, " + username;
+}
+
+
+// Login
+loginBtn.addEventListener("click", function () {
+
+    let username = usernameInput.value;
+    let password = passwordInput.value;
+
+    // Dummy validation
+    if (username === "" || password === "") {
+        loginMessage.innerText =
+            "Please enter username and password";
+        return;
+    }
+
+    // Store username in session storage
+    sessionStorage.setItem("loggedInUser", username);
+
+    showWelcome(username);
+
+    loginMessage.innerText = "";
+});
+
+
+// Check login status after refresh
+function checkLoginStatus() {
+
+    let loggedInUser =
+        sessionStorage.getItem("loggedInUser");
+
+    if (loggedInUser) {
+        showWelcome(loggedInUser);
+    }
+}
+
+
+// Logout
+logoutBtn.addEventListener("click", function () {
+
+    sessionStorage.removeItem("loggedInUser");
+
+    loginSection.style.display = "block";
+    welcomeSection.style.display = "none";
+
+    usernameInput.value = "";
+    passwordInput.value = "";
+
+    loginMessage.innerText =
+        "Logged out successfully!";
+});
+
+
+// Run on page load
+checkLoginStatus();
+
+</script>
+
+</body>
+</html>
